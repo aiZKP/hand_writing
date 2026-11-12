@@ -1,0 +1,42 @@
+{
+  "val": {
+    "cer": 0.06158046412862127,
+    "word_acc": 0.692,
+    "word_acc_nocase": 0.7325,
+    "n": 2000
+  },
+  "test": {
+    "cer": 0.06080534196681506,
+    "word_acc": 0.6983333333333334,
+    "word_acc_nocase": 0.7423333333333333,
+    "n": 3000
+  },
+  "test_touching": {
+    "cer": 0.06682232599510785,
+    "word_acc": 0.6523848019401779,
+    "word_acc_nocase": 0.7000808407437349,
+    "n": 1237
+  },
+  "test_separated": {
+    "cer": 0.05578243920549471,
+    "word_acc": 0.7305728871242201,
+    "word_acc_nocase": 0.7719795802609188,
+    "n": 1763
+  },
+  "best_epoch": 12,
+  "params": 1207391,
+  "args": {
+    "epochs": 12,
+    "samples_per_epoch": 32000,
+    "batch_size": 64,
+    "lr": 0.001,
+    "weight_decay": 0.0001,
+    "clip": 5.0,
+    "workers": 1,
+    "threads": 6,
+    "max_steps": 0,
+    "finetune": false,
+    "user_prob": 0.3,
+    "seed": 0
+  }
+}

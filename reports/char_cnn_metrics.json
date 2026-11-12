@@ -1,0 +1,26 @@
+{
+  "val": {
+    "acc": 0.85355,
+    "top3": 0.9892,
+    "balanced_acc": 0.7054407488405063
+  },
+  "test": {
+    "acc": 0.8601824230805601,
+    "top3": 0.9907498946897862,
+    "balanced_acc": 0.7103456104078902
+  },
+  "best_epoch": 2,
+  "params": 440990,
+  "args": {
+    "epochs": 3,
+    "batch_size": 256,
+    "lr": 0.003,
+    "weight_decay": 0.0001,
+    "label_smoothing": 0.05,
+    "val_size": 20000,
+    "no_augment": false,
+    "max_steps": 0,
+    "threads": 6,
+    "seed": 0
+  }
+}
