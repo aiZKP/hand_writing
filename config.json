@@ -1,0 +1,73 @@
+{
+ "geometry": {
+  "canvas_w": 1400,
+  "canvas_h": 300,
+  "brush_px": 16,
+  "asc_line": 0.12,
+  "xh_line": 0.4,
+  "base_line": 0.7,
+  "desc_line": 0.92,
+  "charset": "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
+ },
+ "constants": {
+  "img_h": 48,
+  "min_w": 32,
+  "max_w": 1200,
+  "crop_margin": 0.06,
+  "ink_threshold": 0.15,
+  "char_size": 28,
+  "crnn_stride": 4,
+  "seg_min_area_frac": 0.0004,
+  "seg_merge_overlap": 0.5
+ },
+ "models": {
+  "crnn": {
+   "loaded": true,
+   "params": 1207391,
+   "epoch": 12,
+   "val_metrics": {
+    "cer": 0.06158046412862127,
+    "word_acc": 0.692,
+    "word_acc_nocase": 0.7325,
+    "n": 2000
+   },
+   "test_metrics": {
+    "cer": 0.06080534196681506,
+    "word_acc": 0.6983333333333334,
+    "word_acc_nocase": 0.7423333333333333,
+    "n": 3000
+   },
+   "finetuned": false,
+   "path": "models/crnn.onnx",
+   "bytes": 4837014
+  },
+  "char_cnn": {
+   "loaded": true,
+   "params": 440990,
+   "epoch": 2,
+   "val_metrics": {
+    "acc": 0.85355,
+    "top3": 0.9892,
+    "balanced_acc": 0.7054407488405063
+   },
+   "test_metrics": {
+    "acc": 0.8601824230805601,
+    "top3": 0.9907498946897862,
+    "balanced_acc": 0.7103456104078902
+   },
+   "finetuned": false,
+   "path": "models/char_cnn.onnx",
+   "bytes": 1766349
+  }
+ },
+ "reports": [
+  "char_cnn_confusion.png",
+  "char_cnn_curves.png",
+  "comparison_examples.png",
+  "crnn_curves.png",
+  "emnist_samples.png",
+  "synth_word_samples.png"
+ ],
+ "comparison_md": "# Model comparison (synthetic test words, EMNIST test characters)\n\n3000 test words, 41.2 % of them with touching letters.\n\n| Model | Word accuracy | Word acc. (ignoring case) | CER | Word acc. touching | Word acc. separated |\n|---|---|---|---|---|---|\n| A: segmentation + CharCNN | 16.2 % | 25.5 % | 49.1 % | 4.8 % | 24.3 % |\n| B: CRNN + CTC (greedy) | 69.8 % | 74.2 % | 6.1 % | 65.2 % | 73.1 % |\n| B: CRNN + CTC (beam search) | 70.1 % | 74.5 % | 6.0 % | 65.6 % | 73.2 % |\n\nModel A found the right NUMBER of characters in 55.1 % of words (touching: 13.9 %, separated: 83.9 %).\n\n# CharCNN on single EMNIST characters (116,323 test images)\n\n| Top-1 | Top-3 | Balanced acc. | Ignoring case |\n|---|---|---|---|\n| 86.0 % | 99.1 % | 71.0 % | 90.2 % |\n\nMost frequent confusions (true -> predicted):\n\n| true | predicted | count | share of true class |\n|---|---|---|---|\n| O | 0 | 2577 | 62.0 % |\n| l | 1 | 2175 | 85.8 % |\n| I | 1 | 1388 | 67.8 % |\n| m | M | 461 | 99.4 % |\n| u | U | 449 | 93.2 % |\n| c | C | 424 | 98.1 % |\n| 0 | O | 409 | 7.1 % |\n| v | V | 408 | 87.2 % |\n| s | S | 382 | 87.4 % |\n| f | F | 377 | 94.2 % |\n",
+ "repo": "https://github.com/aiZKP/hand_writing"
+}

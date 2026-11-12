@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Handwriting Recognizer</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="top">
+    <div>
+      <h1>Handwritten Word Recognition</h1>
+      <p class="sub">Write a word with <b>A–Z, a–z, 0–9</b> between the guide lines — lowercase letters
+        reach the dashed line, capitals and digits reach the top line.</p>
+      <p id="sub-links" class="sub"></p>
+    </div>
+    <div id="modelStatus" class="status"></div>
+  </header>
+
+  <main>
+    <!-- ================= drawing canvas ================= -->
+    <section class="card">
+      <div id="canvasWrap" class="canvas-wrap">
+        <canvas id="guides"></canvas>
+        <canvas id="ink"></canvas>
+        <canvas id="overlay"></canvas>
+      </div>
+      <div class="toolbar">
+        <button id="btnRecognize" class="primary">Recognize <kbd>Enter</kbd></button>
+        <button id="btnUndo">Undo <kbd>Ctrl Z</kbd></button>
+        <button id="btnClear">Clear <kbd>Esc</kbd></button>
+        <label class="check"><input type="checkbox" id="chkAuto" checked> Auto-recognize</label>
+        <label class="check"><input type="checkbox" id="chkBoxes" checked> Show segmentation boxes</label>
+        <span id="latency" class="muted"></span>
+      </div>
+    </section>
+
+    <!-- ================= results ================= -->
+    <section class="grid2">
+      <article class="card">
+        <h2><span class="tag b">Model B</span> CRNN + CTC <small>reads the whole word</small></h2>
+        <div id="crnnText" class="bigtext placeholder">—</div>
+        <div class="meter"><div id="crnnConf"></div></div>
+        <p id="crnnConfLabel" class="muted"></p>
+        <h3>Alternatives (prefix beam search)</h3>
+        <ol id="beams" class="beams"></ol>
+      </article>
+
+      <article class="card">
+        <h2><span class="tag a">Model A</span> Segmentation + CharCNN <small>one letter at a time</small></h2>
+        <div id="cnnText" class="bigtext placeholder">—</div>
+        <p id="cnnInfo" class="muted"></p>
+        <div id="cnnChars" class="chars"></div>
+      </article>
+    </section>
+
+    <section class="card">
+      <h2>What the CRNN sees <small>preprocessed input + CTC best path</small></h2>
+      <div class="scroll-x">
+        <div id="modelInputWrap" class="model-input"></div>
+        <div id="ctcStrip" class="ctc-strip"></div>
+      </div>
+      <p class="muted">Each cell below the image is one CTC <b>time step</b> (4 input pixels wide).
+        <span class="legend blank">·</span> = blank. The text is obtained by merging repeats and removing blanks.</p>
+    </section>
+
+    <section class="card" id="sampleSection">
+      <h2>Correct &amp; save <small>collect your own handwriting for fine-tuning</small></h2>
+      <form id="sampleForm" class="sample-form">
+        <input id="sampleText" type="text" maxlength="32" placeholder="true text of your drawing, e.g. Hello" autocomplete="off" spellcheck="false">
+        <button type="submit">Save sample</button>
+        <span id="sampleMsg" class="muted"></span>
+      </form>
+      <p class="muted">After saving ~30+ words run <code>python -m hwr.train_crnn --finetune</code>,
+        then press <button id="btnReload" class="link">reload models</button>.</p>
+    </section>
+
+    <section class="card">
+      <h2>Training &amp; evaluation reports</h2>
+      <div id="comparison" class="md"></div>
+      <div id="reports" class="reports"></div>
+    </section>
+  </main>
+
+  <footer id="footer" class="muted"></footer>
+  <script>window.HWR_STATIC = true;</script>
+  <script src="https://cdn.jsdelivr.net/npm/onnxruntime-web@1.20.1/dist/ort.min.js"></script>
+  <script src="inference.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
